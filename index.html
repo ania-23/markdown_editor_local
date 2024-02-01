@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One">
+    <style>
+        html {
+            height: 100vmin;
+        }
+
+        body {
+            height: 100%;
+            font-family: 'Klee One', sans-serif;
+            font-size: 16px;
+        }
+
+        article {
+            height: 100%;
+        }
+
+        .container {
+            height: 100%;
+        }
+
+        .grid {
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        #editor {
+            height: 100%;
+            width: 100%;
+            resize: none;
+        }
+
+        #result {
+            height: 100%;
+            overflow: auto;
+            /* Add overflow property if content exceeds height */
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            marked.setOptions({
+                langPrefix: ''
+            });
+
+            var editor = document.getElementById('editor');
+            var result = document.getElementById('result');
+
+            function updateResult() {
+                var src = editor.value;
+                var html = marked.parse(src); // markedをmarked.parseに修正
+                result.innerHTML = html;
+
+                // document.querySelectorAll('pre code').forEach(function (block) {
+                //     hljs.highlightBlock(block);
+                // });
+            }
+
+            editor.addEventListener('input', updateResult); // keyupからinputに変更
+            updateResult(); // 初回実行
+        });
+    </script>
+    <article data-theme="light">
+        <div class="container">
+            <div class="grid">
+                <div>
+                    <textarea id="editor"></textarea>
+                </div>
+                <div>
+                    <div id="result"></div>
+                </div>
+            </div>
+        </div>
+    </article>
+</body>
+
+</html>
